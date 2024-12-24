@@ -1,37 +1,37 @@
 const APIkey = "V58D47ZJ685BT4ZMU6TEU9R2H"
 const APIpath = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'
 
-let location = 'Edinboro'
-
-export default weather (() => {
+const WeatherAPI = (() => {
     function ProcessData(data){
-        const {
-            address: location,
-            description: description,
-            currentConditions: {temp: temperature}
-        } = data;
-        return {
-            location, temperature, description
-        }
+        const location = data.resolvedAddress;
+        const description = data.description;
+        const temperature = data.currentConditions.temp;
+    
+        return { location, temperature, description};
     }
 
-    async function GetData() {
+    async function GetData(city) {
         try{
-            const response = await fetch(assemblePath());
+            const response = await fetch(assemblePath(city));
             if (!response.ok){
-                throw new Error("City not found!");
+                throw new Error(`City ${city} not found!`);
             }
-            const data = await response.json();
-            console.log(data);
+            const RawData = await response.json();
+            console.log(RawData);
+            const data = ProcessData(RawData);
             return data;
         }
         catch(error){
-            console.log(`The following issues happened: ${error}`);
+            console.error(`The following issues happened: ${error}`);
+            return null;
         }
-    
     }
 
-    function assemblePath(){
-        return APIpath + location + '?key=' + APIkey;
+    function assemblePath(city){
+        return `${APIpath}${city}?key=${APIkey}`;
+        // return 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Edinboro?key=V58D47ZJ685BT4ZMU6TEU9R2H';
     }
+    return {GetData};
 })();
+
+export default WeatherAPI;
