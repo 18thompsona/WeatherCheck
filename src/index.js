@@ -1,4 +1,5 @@
 import WeatherAPI from "./WeatherAPI";
+import "./style.css";
 
 const SearchForm = document.querySelector(".searchform");
 
