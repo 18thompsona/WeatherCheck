@@ -1,4 +1,4 @@
-const APIkey = "V58D47ZJ685BT4ZMU6TEU9R2H"
+const APIkey = ""
 const APIpath = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'
 
 const WeatherAPI = (() => {
